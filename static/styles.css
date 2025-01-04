@@ -68,3 +68,12 @@ tr:nth-child(even) {
     font-size: 18px;
     margin-top: 10px;
 }
+
+h1{
+color: chocolate;
+margin-top: 10px;
+border: #ff0022;
+border-style: double;
+border-radius: 30px;
+padding: 10px;
+}
