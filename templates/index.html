@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Donation Details</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h1>Search Donation Details</h1>
+    <form id="search-form">
+        <input type="text" id="query" name="query" placeholder="Enter search term..." required>
+        <button type="submit">Search</button>
+    </form>
+    <div class="message" id="message"></div>
+    <table>
+        <thead>
+            <tr>
+                <th>S.No.</th>
+                <th>Name</th>
+                <th>Donation</th>
+                <th>Locality/From Where Donation Received</th>
+            </tr>
+        </thead>
+        <tbody id="results-table">
+            <!-- Dynamic search results will be displayed here -->
+        </tbody>
+    </table>
+    <script>
+        document.getElementById('search-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const query = document.getElementById('query').value;
+            const response = await fetch('/search', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: query })
+            });
+
+            const results = await response.json();
+            const resultsTable = document.getElementById('results-table');
+            const message = document.getElementById('message');
+
+            // Clear previous results
+            resultsTable.innerHTML = '';
+            message.textContent = '';
+
+            if (results.length > 0) {
+                results.forEach((row, index) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${row['S.No.'] || ''}</td>
+                        <td>${row['Name'] || ''}</td>
+                        <td>${row['Donation'] || ''}</td>
+                        <td>${row['Locality/From Where Donation Received'] || ''}</td>
+                    `;
+                    resultsTable.appendChild(tr);
+                });
+            } else {
+                message.textContent = 'No results found.';
+            }
+        });
+    </script>
+</body>
+</html>
