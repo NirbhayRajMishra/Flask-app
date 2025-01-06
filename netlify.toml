@@ -1,6 +1,0 @@
-[build]
-  functions = "functions"   # this is where your serverless functions will live
-  publish = "build"         # the folder where your frontend build will go
-
-[context.production.environment]
-  FLASK_APP = "app.py"       # your flask app file
